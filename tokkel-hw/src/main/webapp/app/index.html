@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Tökkel</title>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <!--link href="assets/bootstrap/css/bootstrap-responsive.css" rel="stylesheet"-->
+
+    <!-- Le fav icon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- Le Mustache! :{{{ -->
+    <script type="text/template" id="taskListTemplate">
+      <h2>Tasks</h2>
+      <p>Le tasks</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Description</th>
+            <th>Project</th>
+            <th>Started at</th>
+            <th>Stopped at</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="taskListTable">
+          <tr>
+            <td></td>
+            <td>
+              <form id="taskAddForm" class="form-inline">
+                <fieldset id="taskAddControlGroup" class="control-group">
+                  <input type="text" id="taskAddDescriptionTextField" name="description" placeholder="Task description" />
+                  <button type="submit" id="taskAddButton" name="submit" class="btn">Add</button>
+                  <span id="taskAddNotice" class="help-inline"></span>
+                </fieldset>
+              </form>
+            </td>
+            <td>
+              <select id="taskAddProjectSelect">
+              </select>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </script>
+
+    <script type="text/template" id="projectSelectItemTemplate">
+      <option value="{{id}}">{{name}}</option>
+    </script>
+
+    <script type="text/template" id="taskListItemTemplate">
+      <td>{{id}}</td>
+      <td>{{description}}</td>
+      <td>{{project.name}}{{^project.name}}-{{/project.name}}</td>
+      <td>
+        {{#stoppedTime}}
+          {{startedTime}}
+        {{/stoppedTime}}
+        {{^stoppedTime}}
+          {{#startedTime}}
+            <p class="elapsed"></p>
+          {{/startedTime}}
+          {{^startedTime}}
+            <a class="start" href="javascript:;">Start</a>
+          {{/startedTime}}
+        {{/stoppedTime}}
+      </td>
+      <td>{{stoppedTime}}
+        {{#startedTime}}
+          {{^stoppedTime}}
+            <a class="stop" href="javascript:;">Stop</a>
+          {{/stoppedTime}}
+        {{/startedTime}}
+        {{^startedTime}}
+          {{^stoppedTime}}-{{/stoppedTime}}
+        {{/startedTime}}
+      </td>
+      <td>
+        <a class="delete" href="javascript:;">Delete</a>
+      </td>
+    </script>
+
+    <script type="text/template" id="projectListTemplate">
+      <h2>Projects</h2>
+      <p>Le projects</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Created</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="projectListTable">
+          <tr>
+            <td></td>
+            <td>
+              <form id="projectAddForm" class="form-inline">
+                <fieldset id="projectAddControlGroup" class="control-group">
+                  <input type="text" id="projectAddNameTextField" name="name" placeholder="Project name" />
+                  <button type="submit" id="projectAddButton" name="submit" class="btn">Add</button>
+                  <span id="projectAddNotice" class="help-inline"></span>
+                </fieldset>
+              </form>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </script>
+
+    <script type="text/template" id="projectListItemTemplate">
+      <td>{{id}}</td>
+      <td>{{name}}</td>
+      <td>{{creationTime}}</td>
+      <td>
+        <a class="delete" href="javascript:;">Delete</a>
+      </td>
+    </script>
+
+    <script type="text/template" id="projectNavListTemplate">
+      <li class="nav-header">Projects</li>
+    </script>
+
+    <script type="text/template" id="projectNavListItemTemplate">
+      <li data-project-id="{{id}}"><a href="#/projects/{{id}}">{{name}}</a></li>
+    </script>
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+
+            <span class="i-bar"></span>
+            <span class="i-bar"></span>
+            <span class="i-bar"></span>
+          </a>
+          <a class="brand" href="#">Tökkel</a>
+          <div class="nav-collapse">
+            <ul id="navigation" class="nav">
+              <li id="tasksNavItem"><a href="#/tasks">Tasks</a></li>
+              <li id="projectsNavItem"><a href="#/projects">Projects</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span2">
+          <div class="well sidebar-nav" id="projectNavigation">
+            <ul id="projectNavList" class="nav nav-list">
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span10">
+          <div class="span8" id="mainContent">
+          </div><!--/span-->
+          <div class="span4">
+          </div><!--/span-->
+        </div><!--/row-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; Werkko 2012</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/javascripts/date.format.js"></script>
+    <script src="assets/javascripts/jquery-1.7.1.js"></script>
+    <script src="assets/javascripts/underscore-1.3.1.js"></script>
+    <script src="assets/javascripts/backbone-0.9.0.js"></script>
+    <script src="assets/javascripts/mustache-0.5.0-dev.js"></script>
+
+    <script src="assets/bootstrap/js/bootstrap.js"></script>
+    <script src="assets/javascripts/main.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        App.init();
+      });
+    </script>
+  </body>
+</html>
