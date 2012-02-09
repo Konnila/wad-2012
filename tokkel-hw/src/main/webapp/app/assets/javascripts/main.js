@@ -80,6 +80,12 @@ App.Views.TaskListItem = Backbone.View.extend({
       attributes.stoppedTime =
         new Date(attributes.stoppedTime).format("yyyy-mm-dd HH:MM:ss");
     }
+    if (this.options.projectCollection && attributes.projectId) {
+      var project = this.options.projectCollection.get(attributes.projectId);
+      if (project) {
+        attributes.project = project.toJSON();
+      }
+    }
     var content = Mustache.to_html($("#taskListItemTemplate").html(),
       attributes);
     $(this.el).html(content);
@@ -216,7 +222,7 @@ App.Views.TaskList = Backbone.View.extend({
       var el = $("<tr></tr>");
       listElement.append(el);
 
-      new App.Views.TaskListItem({model: model, el: el});
+      new App.Views.TaskListItem({model: model, el: el, projectCollection: self.options.projectCollection});
     });
 
     return this;
