@@ -16,6 +16,7 @@ public class TaskServiceImpl extends AbstractRepositoryService<Task>
     @Autowired
     private TaskRepository taskRepository;
 
+    // LISÄÄ TÄNNE PROJECTREPOSITORY
     @PostConstruct
     private void init() {
         setRepository(taskRepository);
@@ -32,7 +33,7 @@ public class TaskServiceImpl extends AbstractRepositoryService<Task>
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false,
     rollbackFor = Throwable.class)
     public Task save(Task task, Integer projectId) {
-        // TODO: lisää taski projektiin
+        // HAE TÄSSÄ PROJEKTI JA TALLENNA SIIHEN LIITTYVÄ TASKI
 
         taskRepository.saveAndFlush(task);
         return task;
