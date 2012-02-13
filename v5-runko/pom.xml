@@ -55,6 +55,13 @@
             <version>1.0.0.BUILD-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
+	<dependency>
+	  <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+          <version>1.2.1</version>
+          <scope>test</scope>
+	</dependency>
+	
         
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
