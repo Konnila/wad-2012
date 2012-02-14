@@ -11,7 +11,7 @@
     <name>v5-runko</name>
     <properties>
         <spring-version>3.1.0.RELEASE</spring-version>
-        <spring-data-version>1.0.2.RELEASE</spring-data-version>
+        <spring-data-version>1.0.3.RELEASE</spring-data-version>
         
         <eclipselink-version>2.3.2</eclipselink-version>
         <eclipselink-jpa-version>2.0.0</eclipselink-jpa-version>
@@ -47,6 +47,12 @@
             <artifactId>spring-test</artifactId>
             <version>${spring-version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         
         <dependency>
@@ -54,13 +60,23 @@
             <artifactId>spring-test-mvc</artifactId>
             <version>1.0.0.BUILD-SNAPSHOT</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-orm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-	<dependency>
-	  <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-core</artifactId>
-          <version>1.2.1</version>
-          <scope>test</scope>
-	</dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>1.2.1</version>
+            <scope>test</scope>
+        </dependency>
 	
         
         <dependency>
@@ -71,7 +87,7 @@
         </dependency>
         
 
-    <!-- servlet ja jsp api -->
+        <!-- servlet ja jsp api -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -85,21 +101,21 @@
             <scope>provided</scope>
         </dependency>
 
-    <!-- jstl -->
+        <!-- jstl -->
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
 
-    <!-- cglib @configuration-konffeille -->
+        <!-- cglib @configuration-konffeille -->
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>2.2.2</version>
         </dependency> 
 
-    <!-- db -->
+        <!-- db -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
@@ -109,6 +125,16 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring-data-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-orm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency> 
 
         <dependency>
@@ -210,14 +236,18 @@
         
         
         <!-- junit -->
-        
         <dependency>
             <groupId>junit</groupId>  
             <artifactId>junit</artifactId>  
-            <version>4.8.1</version>  
+            <version>4.10</version>  
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        
     </dependencies>
 
     <repositories>
