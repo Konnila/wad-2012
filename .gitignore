@@ -1,3 +1,5 @@
 /v5-runko/target/
 /v5-amqp/target/
 /v5-activemq/target/
+/v6-runko-url/target/
+/v6-runko-db/target/
