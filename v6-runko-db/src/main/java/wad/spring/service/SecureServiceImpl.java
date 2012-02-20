@@ -49,5 +49,19 @@ public class SecureServiceImpl implements SecureService {
         roles.add(role);
         
         matti.setRoles(roles);
+        
+        
+        User arto = new User();
+        
+        arto.setUsername("arto");
+        arto.setPassword("av");
+        arto = userRepository.save(arto);
+        
+        roles = new ArrayList();
+
+        role = new Role();
+        role.setRolename("student");
+        roles.add(role);
+        arto.setRoles(roles);
     }
 }
